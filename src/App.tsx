@@ -4,6 +4,8 @@ import { Accordion } from "./components/Accordion";
 import { Modal } from "./components/Modal.js";
 
 import { useState } from "react";
+import { Popover } from "./components/Popover";
+import { Selectbox } from "./components/Forms/Selectbox";
 
 export const App = () => {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
@@ -46,17 +48,88 @@ export const App = () => {
           </Accordion>
         </div>
         <div className="grid">
-          <Tooltip text="Tooltip text">
-            <p className="bg-red-300">Tooltip</p>
-          </Tooltip>
+          <div className="max-w-xs">
+            <Tooltip text="For long tooltip text, use popover instead">
+              <p className="bg-red-300">
+                For long tooltip text, use popover instead
+              </p>
+            </Tooltip>
+          </div>
+          <div className="justify-self-end max-w-xs">
+            <Tooltip text="Tooltip text">
+              <p className="bg-red-300 max-w-xs">Tooltip</p>
+            </Tooltip>
+          </div>
         </div>
         <div className="grid">
-          <button type="button" onClick={() => setIsModalOpened(true)}>
+          <button
+            className="bg-red-300"
+            type="button"
+            onClick={() => setIsModalOpened(true)}
+          >
             Open Modal
           </button>
           <Modal setIsOpened={setIsModalOpened} isOpened={isModalOpened}>
             <p>1</p>
           </Modal>
+        </div>
+        <div className="grid">
+          <div>
+            <Popover>
+              <Popover.Control>Обычный поповер</Popover.Control>
+              <Popover.Body>
+                cessitatibus expedita magnam delectus rem architecto! Minima
+                quaerat facilis vel, voluptates ab libero. Architecto dolorem
+                unde, quas animi ea ipsum non ad
+              </Popover.Body>
+            </Popover>
+          </div>
+          <div className="justify-self-end max-w-xs">
+            <Popover>
+              <Popover.Control>Много текста и справа</Popover.Control>
+              <Popover.Body>
+                <button>Hello from popover</button>
+                <p>
+                  cessitatibus expedita magnam delectus rem architecto! Minima
+                  quaerat facilis vel, voluptates ab libero. Architecto dolorem
+                  unde, quas animi ea ipsum non ad cessitatibus expedita magnam
+                  delectus rem architecto! Minima quaerat facilis vel,
+                  voluptates ab libero. Architecto dolorem unde, quas animi ea
+                  ipsum non ad cessitatibus expedita magnam delectus rem
+                  architecto! Minima quaerat facilis vel, voluptates ab libero.
+                  Architecto dolorem unde, quas animi ea ipsum non ad
+                  cessitatibus expedita magnam delectus rem architecto! Minima
+                  quaerat facilis vel, voluptates ab libero. Architecto dolorem
+                  unde, quas animi ea ipsum non ad cessitatibus expedita magnam
+                  delectus rem architecto! Minima quaerat facilis vel,
+                  voluptates ab libero. Architecto dolorem unde, quas animi ea
+                  ipsum non ad cessitatibus expedita magnam delectus rem
+                  architecto! Minima quaerat facilis vel, voluptates ab libero.
+                  Architecto dolorem unde, quas animi ea ipsum non ad
+                  cessitatibus expedita magnam delectus rem architecto! Minima
+                  quaerat facilis vel, voluptates ab libero. Architecto dolorem
+                  unde, quas animi ea ipsum non ad cessitatibus expedita magnam
+                  delectus rem architecto! Minima quaerat facilis vel,
+                  voluptates ab libero. Architecto dolorem unde, quas animi ea
+                  ipsum non ad
+                </p>
+              </Popover.Body>
+            </Popover>
+          </div>
+          <div className="max-w-xs">
+            <Popover isMenu={true}>
+              <Popover.Control>Поповер как меню</Popover.Control>
+              <Popover.Body>
+                Данный поповер закроется при клике на любой элемент кроме
+                открывающего его контрола
+              </Popover.Body>
+            </Popover>
+          </div>
+        </div>
+        {/* Forms api */}
+        <div className="grid">
+          <p>Selectbox</p>
+          <Selectbox />
         </div>
       </div>
     </>

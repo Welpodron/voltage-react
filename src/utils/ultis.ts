@@ -162,3 +162,30 @@ export class Animation {
     }
   };
 }
+
+export const throttle = (func: Function, delayMs: number) => {
+  let isThrotting = false;
+  let savedArgs: any[] = [];
+
+  const wrapper = (...args: any[]) => {
+    if (isThrotting) {
+      savedArgs = args;
+      return;
+    }
+
+    isThrotting = true;
+
+    func.apply(this, args);
+
+    setTimeout(() => {
+      isThrotting = false;
+
+      if (savedArgs.length) {
+        wrapper.apply(this, savedArgs);
+        savedArgs = [];
+      }
+    }, delayMs);
+  };
+
+  return wrapper;
+};
