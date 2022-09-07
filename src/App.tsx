@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Popover } from "./components/Popover";
 import { Selectbox } from "./components/Forms/Selectbox";
 
+import { Button } from "@mantine/core";
+
 export const App = () => {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
 
@@ -15,6 +17,7 @@ export const App = () => {
       <div className="grid gap-8 p-8">
         <div className="grid">
           <p>CollapseBox</p>
+          <Button></Button>
           <CollapseBox>
             <CollapseBox.Control>Toggle collapse</CollapseBox.Control>
             <CollapseBox.Collapse>
@@ -34,7 +37,7 @@ export const App = () => {
             </CollapseBox.Collapse>
           </CollapseBox>
         </div>
-        <div className="grid">
+        {/* <div className="grid">
           <p>Accordion</p>
           <Accordion>
             <Accordion.Item value="item_01">
@@ -126,11 +129,10 @@ export const App = () => {
             </Popover>
           </div>
         </div>
-        {/* Forms api */}
         <div className="grid">
           <p>Selectbox</p>
           <Selectbox />
-        </div>
+        </div> */}
       </div>
     </>
   );

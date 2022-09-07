@@ -4,51 +4,57 @@ import React, {
   useEffect,
   useState,
   useRef,
+  createRef,
 } from "react";
 
 import { Animation as _Animation } from "../utils/ultis";
 
+import { useMergedRef } from "../hooks/use-merged-ref";
+
 export const Animation = ({
   children,
-  mounted,
   duration,
   from,
   to,
   before,
   after,
 }: {
-  children: (styles: React.CSSProperties) => ReactElement;
-  mounted: boolean;
+  children: React.ReactElement;
   duration: number;
   from: Record<string, number | string>;
   to: Record<string, number | string>;
   before?: () => void;
   after?: () => void;
 }) => {
-  const [styles, setStyles] = useState<Record<string, string | number>>({});
+  if (children.type === React.Fragment) {
+    throw new Error("Animation cannot accept React.Fragment");
+  }
 
-  const renderCounter = useRef(0);
+  const elementRef = useRef<HTMLElement>();
 
-  renderCounter.current = renderCounter.current + 1;
+  const child = React.cloneElement(React.Children.only(children), {
+    ref: useMergedRef(elementRef, (children as any).ref),
+  });
 
   useEffect(() => {
-    console.log("animation component rerenders");
+    if (!elementRef.current) return;
+
+    const el = elementRef.current;
 
     const animation = new _Animation({
       duration,
       from,
       to,
       step: (state) => {
-        setStyles({ ...state.props });
+        Object.entries(state.props).forEach((state) => {
+          const [cssProperty, cssPropertyValue] = state;
+          el.style.setProperty(cssProperty, cssPropertyValue.toString());
+        });
       },
     });
 
-    // animation.start();
-  }, []);
+    animation.start();
+  }, [elementRef]);
 
-  return (
-    <div>
-      Renders: {renderCounter.current} {children(styles)}
-    </div>
-  );
+  return <>{child}</>;
 };

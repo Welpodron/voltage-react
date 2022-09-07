@@ -2,26 +2,17 @@ import React, { createContext, useContext, useState } from "react";
 
 import { Collapse } from "./Collapse";
 
-// import { Animation } from "./Animation";
-// import { Transition } from "react-transition-group";
-
-// const duration = 1000;
-
-// const defaultStyle = {
-//   transition: `opacity ${duration}ms ease-in-out`,
-//   opacity: 0,
-// };
-
-// const transitionStyles: Record<string, any> = {
-//   entering: { opacity: 1 },
-//   entered: { opacity: 1 },
-//   exiting: { opacity: 0 },
-//   exited: { opacity: 0 },
-// };
-
 interface ICollapseBoxContext {
   isOpened: boolean;
   setIsOpened: (value: boolean) => void;
+}
+
+interface I_CollapseBoxBodyProps {
+  children: React.ReactNode;
+}
+
+export interface ICollapseBoxProps {
+  children: React.ReactNode[];
 }
 
 const CollapseBoxContext = createContext<ICollapseBoxContext>({
@@ -29,27 +20,43 @@ const CollapseBoxContext = createContext<ICollapseBoxContext>({
   setIsOpened: () => {},
 });
 
-const _CollapseBoxBtn = ({ children }: { children: React.ReactNode }) => {
+interface I_CollapseBoxControlProps
+  extends Omit<React.ComponentPropsWithoutRef<"button">, "type"> {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const defaultCollapseBoxControlProps: Partial<I_CollapseBoxControlProps> = {
+  className: "p-4 bg-slate-300",
+};
+
+const _CollapseBoxControl = (props: I_CollapseBoxControlProps) => {
+  const { children, className, ...others } = {
+    ...defaultCollapseBoxControlProps,
+    ...props,
+  };
+
   const { isOpened, setIsOpened } = useContext(CollapseBoxContext);
 
   return (
     <button
       onClick={() => setIsOpened(!isOpened)}
-      className="p-4 bg-slate-300"
+      className={className}
       type="button"
+      {...others}
     >
       {children}
     </button>
   );
 };
 
-const _CollapseBoxBody = ({ children }: { children: React.ReactNode }) => {
-  const { isOpened, setIsOpened } = useContext(CollapseBoxContext);
+const _CollapseBoxBody = ({ children }: I_CollapseBoxBodyProps) => {
+  const { isOpened } = useContext(CollapseBoxContext);
 
   return <Collapse isOpened={isOpened}>{children}</Collapse>;
 };
 
-export const CollapseBox = ({ children }: { children: React.ReactNode[] }) => {
+export const CollapseBox = ({ children }: ICollapseBoxProps) => {
   const [isOpened, setIsOpened] = useState(false);
 
   return (
@@ -59,5 +66,5 @@ export const CollapseBox = ({ children }: { children: React.ReactNode[] }) => {
   );
 };
 
-CollapseBox.Control = _CollapseBoxBtn;
+CollapseBox.Control = _CollapseBoxControl;
 CollapseBox.Collapse = _CollapseBoxBody;
