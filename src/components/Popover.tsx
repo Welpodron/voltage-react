@@ -101,13 +101,13 @@ const PopoverDialog = ({ children }: { children: ReactNode }) => {
 
   //TODO: Add use callback + Maybe remove checks for currentRefs ? Because useEffect checks it?
   const handleDocumentMouseDown = (evt: MouseEvent) => {
-    if (!evt.target || (!controlRef?.current && !bodyRef?.current)) return;
-
-    if (!isOpened) return;
-
     if (
       (controlRef?.current as HTMLElement).contains(evt.target as HTMLElement)
     ) {
+      return;
+    }
+
+    if (firstFocusableElement?.current === evt.target) {
       return;
     }
 
@@ -123,7 +123,24 @@ const PopoverDialog = ({ children }: { children: ReactNode }) => {
   };
   //   TODO: Maybe add check for currentRefs ????
   const handleDocumentKeydown = (evt: KeyboardEvent) => {
+    if (evt.code === "Tab") {
+      if (evt.shiftKey) {
+        if (evt.target === firstFocusableElement.current) {
+          evt.preventDefault();
+          return firstFocusableElement.current?.focus();
+        }
+        return;
+      }
+
+      if (evt.target === lastFocusableElement.current) {
+        evt.preventDefault();
+        return firstFocusableElement.current?.focus();
+      }
+      return;
+    }
+
     if (evt.code === "Escape") {
+      evt.preventDefault();
       return setIsOpened(false);
     }
 
@@ -139,28 +156,11 @@ const PopoverDialog = ({ children }: { children: ReactNode }) => {
     if (evt.code === "Space") {
       if (isMenu) {
         if (document.activeElement === firstFocusableElement.current) {
+          evt.preventDefault();
           return setIsOpened(false);
         }
       }
     }
-
-    // if (evt.code === "Tab") {
-    //   if (!evt.target) return;
-
-    //   if (evt.shiftKey) {
-    //     if (firstFocusableElement.current?.contains(evt.target as Node)) {
-    //       evt.preventDefault();
-    //       lastFocusableElement.current?.focus();
-    //     }
-
-    //     return;
-    //   }
-
-    //   if (lastFocusableElement.current?.contains(evt.target as Node)) {
-    //     evt.preventDefault();
-    //     return firstFocusableElement.current?.focus();
-    //   }
-    // }
   };
   //   TODO: Maybe add check for currentRefs ????
   const handleDocumentClick = (evt: MouseEvent) => {
@@ -169,6 +169,10 @@ const PopoverDialog = ({ children }: { children: ReactNode }) => {
     if (
       (controlRef?.current as HTMLElement).contains(evt.target as HTMLElement)
     ) {
+      return;
+    }
+
+    if (firstFocusableElement?.current === evt.target) {
       return;
     }
 
@@ -183,22 +187,9 @@ const PopoverDialog = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handleFocusOut = (evt: FocusEvent) => {
-    if (!evt.relatedTarget) return;
-
-    if (
-      !firstFocusableElement.current?.contains(evt.relatedTarget as HTMLElement)
-    ) {
-      evt.preventDefault();
-      return firstFocusableElement.current?.focus();
-    }
-
-    if (
-      lastFocusableElement.current?.contains(evt.relatedTarget as HTMLElement)
-    ) {
-      evt.preventDefault();
-      return firstFocusableElement.current?.focus();
-    }
+  const handleLastElementFocus = (evt: FocusEvent) => {
+    evt.preventDefault();
+    return firstFocusableElement.current?.focus();
   };
 
   useEffect(() => {
@@ -208,20 +199,19 @@ const PopoverDialog = ({ children }: { children: ReactNode }) => {
 
     firstFocusableElement.current?.focus();
 
+    lastFocusableElement.current?.removeEventListener(
+      "focus",
+      handleLastElementFocus
+    );
+    lastFocusableElement.current?.addEventListener(
+      "focus",
+      handleLastElementFocus
+    );
+
     document.addEventListener("mousedown", handleDocumentMouseDown);
     document.addEventListener("click", handleDocumentClick);
     document.addEventListener("keydown", handleDocumentKeydown);
     window.addEventListener("resize", throttledHandleWindowResize);
-
-    // WARNING! Beware of memory leak
-    (bodyRef?.current as HTMLElement).removeEventListener(
-      "focusout",
-      handleFocusOut
-    );
-    (bodyRef?.current as HTMLElement).addEventListener(
-      "focusout",
-      handleFocusOut
-    );
 
     calculatePosition();
 

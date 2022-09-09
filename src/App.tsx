@@ -1,23 +1,17 @@
 import { Tooltip } from "./components/Tooltip";
 import { CollapseBox } from "./components/CollapseBox";
 import { Accordion } from "./components/Accordion";
-import { Modal } from "./components/Modal.js";
+
+import { Popover } from "./components/Popover";
 
 import { useState } from "react";
-import { Popover } from "./components/Popover";
-import { Selectbox } from "./components/Forms/Selectbox";
-
-import { Button } from "@mantine/core";
 
 export const App = () => {
-  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
-
   return (
     <>
       <div className="grid gap-8 p-8">
         <div className="grid">
           <p>CollapseBox</p>
-          <Button></Button>
           <CollapseBox>
             <CollapseBox.Control>Toggle collapse</CollapseBox.Control>
             <CollapseBox.Collapse>
@@ -37,7 +31,7 @@ export const App = () => {
             </CollapseBox.Collapse>
           </CollapseBox>
         </div>
-        {/* <div className="grid">
+        <div className="grid">
           <p>Accordion</p>
           <Accordion>
             <Accordion.Item value="item_01">
@@ -65,18 +59,6 @@ export const App = () => {
           </div>
         </div>
         <div className="grid">
-          <button
-            className="bg-red-300"
-            type="button"
-            onClick={() => setIsModalOpened(true)}
-          >
-            Open Modal
-          </button>
-          <Modal setIsOpened={setIsModalOpened} isOpened={isModalOpened}>
-            <p>1</p>
-          </Modal>
-        </div>
-        <div className="grid">
           <div>
             <Popover>
               <Popover.Control>Обычный поповер</Popover.Control>
@@ -91,7 +73,9 @@ export const App = () => {
             <Popover>
               <Popover.Control>Много текста и справа</Popover.Control>
               <Popover.Body>
-                <button>Hello from popover</button>
+                <Tooltip text="Tooltip text">
+                  <button>Hello from popover</button>
+                </Tooltip>
                 <p>
                   cessitatibus expedita magnam delectus rem architecto! Minima
                   quaerat facilis vel, voluptates ab libero. Architecto dolorem
@@ -124,15 +108,61 @@ export const App = () => {
               <Popover.Control>Поповер как меню</Popover.Control>
               <Popover.Body>
                 Данный поповер закроется при клике на любой элемент кроме
-                открывающего его контрола
+                открывающего его контрола и самого поповера
+                <button className="bg-blue-100" type="button">
+                  При клике сюда поповер будет закрыт
+                </button>
+              </Popover.Body>
+            </Popover>
+          </div>
+          <div>
+            <Popover>
+              <Popover.Control>
+                Поповер содержащий поповер внутри
+              </Popover.Control>
+              <Popover.Body>
+                <p>
+                  cessitatibus expedita magnam delectus rem architecto! Minima
+                  quaerat facilis vel, voluptates ab libero. Architecto dolorem
+                  unde, quas animi ea ipsum non ad
+                </p>
+                <Popover>
+                  <Popover.Control>
+                    Контрол отправляющий на следующий поповер
+                  </Popover.Control>
+                  <Popover.Body>
+                    <p>
+                      cessitatibus expedita magnam delectus rem architecto!
+                      Minima quaerat facilis vel, voluptates ab libero.
+                      Architecto dolorem unde, quas animi ea ipsum non ad
+                      cessitatibus expedita magnam delectus rem architecto!
+                      Minima quaerat facilis vel, voluptates ab libero.
+                      Architecto dolorem unde, quas animi ea ipsum non ad
+                      cessitatibus expedita magnam delectus rem architecto!
+                      Minima quaerat facilis vel, voluptates ab libero.
+                      Architecto dolorem unde, quas animi ea ipsum non ad
+                      cessitatibus expedita magnam delectus rem architecto!
+                      Minima quaerat facilis vel, voluptates ab libero.
+                      Architecto dolorem unde, quas animi ea ipsum non ad
+                      cessitatibus expedita magnam delectus rem architecto!
+                      Minima quaerat facilis vel, voluptates ab libero.
+                      Architecto dolorem unde, quas animi ea ipsum non ad
+                      cessitatibus expedita magnam delectus rem architecto!
+                      Minima quaerat facilis vel, voluptates ab libero.
+                      Architecto dolorem unde, quas animi ea ipsum non ad
+                      cessitatibus expedita magnam delectus rem architecto!
+                      Minima quaerat facilis vel, voluptates ab libero.
+                      Architecto dolorem unde, quas animi ea ipsum non ad
+                      cessitatibus expedita magnam delectus rem architecto!
+                      Minima quaerat facilis vel, voluptates ab libero.
+                      Architecto dolorem unde, quas animi ea ipsum non ad
+                    </p>
+                  </Popover.Body>
+                </Popover>
               </Popover.Body>
             </Popover>
           </div>
         </div>
-        <div className="grid">
-          <p>Selectbox</p>
-          <Selectbox />
-        </div> */}
       </div>
     </>
   );
