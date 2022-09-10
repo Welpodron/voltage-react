@@ -5,7 +5,11 @@ import React, {
   useEffect,
   useRef,
   useState,
+  useCallback,
+  useLayoutEffect,
 } from "react";
+
+import { useId } from "../hooks/use-id";
 
 import { createPortal } from "react-dom";
 import { throttle } from "../utils/ultis";
@@ -25,6 +29,20 @@ const PopoverContext = createContext<IPopoverContext>({
   isMenu: false,
   setIsOpened: (value) => {},
 });
+
+interface IPopoverTreeContext {
+  children: React.MutableRefObject<{ id: string; parentId: string | null }[]>;
+  addChild: ({ id, parentId }: { id: string; parentId: string | null }) => void;
+  removeChild: ({
+    id,
+    parentId,
+  }: {
+    id: string;
+    parentId: string | null;
+  }) => void;
+}
+
+const PopoverTreeContext = createContext<IPopoverTreeContext | null>(null);
 
 const PopoverControl = ({ children }: { children: ReactNode }) => {
   const { isOpened, setIsOpened, controlRef, bodyRef } =
@@ -267,7 +285,27 @@ export const Popover = ({
   children: ReactNode[];
   isMenu?: boolean;
 }) => {
+  // const id = useId();
+  // const tree = useContext(PopoverTreeContext);
+
+  // useLayoutEffect(() => {
+  //   if (!tree || !id) return;
+
+  //   tree.addChild({ id, parentId: null });
+
+  //   return () => {
+  //     tree.removeChild({ id, parentId: null });
+  //   };
+  // }, [tree, id]);
+
+  // console
+
   const [isOpened, setIsOpened] = useState<boolean>(false);
+
+  // parentId
+  // children
+  // addChild
+  // removeChild
 
   const controlRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLDialogElement>(null);
@@ -278,6 +316,37 @@ export const Popover = ({
     >
       {children}
     </PopoverContext.Provider>
+  );
+};
+
+interface IPopoverTreeProps {
+  children: React.ReactNode;
+}
+
+export const PopoverTree = ({ children }: IPopoverTreeProps) => {
+  const tree = useRef<{ id: string; parentId: string | null }[]>([]);
+
+  const addChild = useCallback(
+    ({ id, parentId }: { id: string; parentId: string | null }) => {
+      tree.current = [...tree.current, { id, parentId }];
+    },
+    []
+  );
+  const removeChild = useCallback(
+    ({ id, parentId }: { id: string; parentId: string | null }) => {
+      tree.current = tree.current.filter(
+        (branch) => branch.id !== id && branch.parentId !== parentId
+      );
+    },
+    []
+  );
+
+  return (
+    <PopoverTreeContext.Provider
+      value={{ children: tree, addChild, removeChild }}
+    >
+      {children}
+    </PopoverTreeContext.Provider>
   );
 };
 

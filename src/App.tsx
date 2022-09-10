@@ -2,7 +2,7 @@ import { Tooltip } from "./components/Tooltip";
 import { CollapseBox } from "./components/CollapseBox";
 import { Accordion } from "./components/Accordion";
 
-import { Popover } from "./components/Popover";
+import { Popover, PopoverTree } from "./components/Popover";
 
 import { useState } from "react";
 
@@ -116,51 +116,53 @@ export const App = () => {
             </Popover>
           </div>
           <div>
-            <Popover>
-              <Popover.Control>
-                Поповер содержащий поповер внутри
-              </Popover.Control>
-              <Popover.Body>
-                <p>
-                  cessitatibus expedita magnam delectus rem architecto! Minima
-                  quaerat facilis vel, voluptates ab libero. Architecto dolorem
-                  unde, quas animi ea ipsum non ad
-                </p>
-                <Popover>
-                  <Popover.Control>
-                    Контрол отправляющий на следующий поповер
-                  </Popover.Control>
-                  <Popover.Body>
-                    <p>
-                      cessitatibus expedita magnam delectus rem architecto!
-                      Minima quaerat facilis vel, voluptates ab libero.
-                      Architecto dolorem unde, quas animi ea ipsum non ad
-                      cessitatibus expedita magnam delectus rem architecto!
-                      Minima quaerat facilis vel, voluptates ab libero.
-                      Architecto dolorem unde, quas animi ea ipsum non ad
-                      cessitatibus expedita magnam delectus rem architecto!
-                      Minima quaerat facilis vel, voluptates ab libero.
-                      Architecto dolorem unde, quas animi ea ipsum non ad
-                      cessitatibus expedita magnam delectus rem architecto!
-                      Minima quaerat facilis vel, voluptates ab libero.
-                      Architecto dolorem unde, quas animi ea ipsum non ad
-                      cessitatibus expedita magnam delectus rem architecto!
-                      Minima quaerat facilis vel, voluptates ab libero.
-                      Architecto dolorem unde, quas animi ea ipsum non ad
-                      cessitatibus expedita magnam delectus rem architecto!
-                      Minima quaerat facilis vel, voluptates ab libero.
-                      Architecto dolorem unde, quas animi ea ipsum non ad
-                      cessitatibus expedita magnam delectus rem architecto!
-                      Minima quaerat facilis vel, voluptates ab libero.
-                      Architecto dolorem unde, quas animi ea ipsum non ad
-                      cessitatibus expedita magnam delectus rem architecto!
-                      Minima quaerat facilis vel, voluptates ab libero.
-                      Architecto dolorem unde, quas animi ea ipsum non ad
-                    </p>
-                  </Popover.Body>
-                </Popover>
-              </Popover.Body>
-            </Popover>
+            <PopoverTree>
+              <Popover>
+                <Popover.Control>
+                  Поповер содержащий поповер внутри
+                </Popover.Control>
+                <Popover.Body>
+                  <p>
+                    cessitatibus expedita magnam delectus rem architecto! Minima
+                    quaerat facilis vel, voluptates ab libero. Architecto
+                    dolorem unde, quas animi ea ipsum non ad
+                  </p>
+                  <Popover>
+                    <Popover.Control>
+                      Контрол отправляющий на следующий поповер
+                    </Popover.Control>
+                    <Popover.Body>
+                      <p>
+                        cessitatibus expedita magnam delectus rem architecto!
+                        Minima quaerat facilis vel, voluptates ab libero.
+                        Architecto dolorem unde, quas animi ea ipsum non ad
+                        cessitatibus expedita magnam delectus rem architecto!
+                        Minima quaerat facilis vel, voluptates ab libero.
+                        Architecto dolorem unde, quas animi ea ipsum non ad
+                        cessitatibus expedita magnam delectus rem architecto!
+                        Minima quaerat facilis vel, voluptates ab libero.
+                        Architecto dolorem unde, quas animi ea ipsum non ad
+                        cessitatibus expedita magnam delectus rem architecto!
+                        Minima quaerat facilis vel, voluptates ab libero.
+                        Architecto dolorem unde, quas animi ea ipsum non ad
+                        cessitatibus expedita magnam delectus rem architecto!
+                        Minima quaerat facilis vel, voluptates ab libero.
+                        Architecto dolorem unde, quas animi ea ipsum non ad
+                        cessitatibus expedita magnam delectus rem architecto!
+                        Minima quaerat facilis vel, voluptates ab libero.
+                        Architecto dolorem unde, quas animi ea ipsum non ad
+                        cessitatibus expedita magnam delectus rem architecto!
+                        Minima quaerat facilis vel, voluptates ab libero.
+                        Architecto dolorem unde, quas animi ea ipsum non ad
+                        cessitatibus expedita magnam delectus rem architecto!
+                        Minima quaerat facilis vel, voluptates ab libero.
+                        Architecto dolorem unde, quas animi ea ipsum non ad
+                      </p>
+                    </Popover.Body>
+                  </Popover>
+                </Popover.Body>
+              </Popover>
+            </PopoverTree>
           </div>
         </div>
       </div>
